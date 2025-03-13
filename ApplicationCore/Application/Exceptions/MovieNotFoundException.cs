@@ -1,6 +1,3 @@
 namespace ApplicationCore.Application.Exceptions;
 
-public class MovieNotFoundException
-{
-    
-}
+public class MovieNotFoundException(string? message) : Exception(message);
