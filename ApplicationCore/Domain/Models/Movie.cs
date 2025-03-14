@@ -7,13 +7,13 @@ public class Movie(string title, string description, DateTime releaseDate): Base
     public string Title { get; set; } = title;
     public string Description { get; set; } = description;
     public DateTime ReleaseDate { get; set; } = releaseDate;
-    public List< Review> Reviews { get; set; }
+    public List<Review> Reviews { get; set; } = new ();
 
     public decimal AverageRate
     {
         get
         {
-            return 0m;
+            return Reviews.Average(r => (decimal) r.Rate);
         }
     }
 }

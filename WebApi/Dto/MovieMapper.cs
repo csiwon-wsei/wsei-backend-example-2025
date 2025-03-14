@@ -7,10 +7,13 @@ public class MovieMapper
 {
     public static MovieDto From(Movie movie)
     {
-        return new MovieDto(movie.Title, movie.Description, movie.ReleaseDate)
+        return new MovieDto()
         {
-            Reviews = movie.Reviews.Select(r => MovieMapper.From(r)).ToList(),
             Id = movie.Id,
+            ReleaseDate = movie.ReleaseDate,
+            Description = movie.Description,
+            Title = movie.Title,
+            Reviews = movie.Reviews.Select(r => MovieMapper.From(r)).ToList(),
         };
     }
 
@@ -25,5 +28,13 @@ public class MovieMapper
     public static Review To(Guid movieId, NewReviewDto dto)
     {
         return new Review( movieId, dto.UserId, dto.Title, dto.Content, ReviewRate.Of(dto.Rate));
+    }
+
+    public static Movie To(NewMovieDto dto)
+    {
+        return new Movie(dto.Title, dto.Description, dto.ReleaseDate)
+        {
+            Reviews = new()
+        };
     }
 }

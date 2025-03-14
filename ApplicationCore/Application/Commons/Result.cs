@@ -9,7 +9,7 @@ public class Result<T>
         _error = error;
     }
     public bool IsSuccess => _error == string.Empty;
-    public bool IsError => _error != String.Empty;
+    public bool IsError => _error != string.Empty;
     public T Value => IsError || _value == null ? throw new InvalidOperationException("There is no value for error!") : _value;
     public string Error => _error;
 
@@ -18,8 +18,8 @@ public class Result<T>
         return new Result<T>(value, String.Empty);
     }
 
-    public static Result<T?> Failure(string error = "Unknown error")
+    public static Result<T> Failure(string error = "Unknown error")
     {
-        return new Result<T?>(default(T), error == String.Empty ? "Empty error message" : error);
+        return new Result<T>(default(T)!, error == String.Empty ? "Empty error message" : error);
     }
 }

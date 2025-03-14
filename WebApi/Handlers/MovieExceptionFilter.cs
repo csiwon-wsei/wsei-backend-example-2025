@@ -8,7 +8,6 @@ public class MovieExceptionFilter(): ExceptionFilterAttribute
 {
     public override void OnException(ExceptionContext context)
     {
-        Console.WriteLine("Excpetion filter");
         if (context.Exception is MovieNotFoundException || context.Exception is UserNotFoundException)
         {
             context.Result = new NotFoundObjectResult(new

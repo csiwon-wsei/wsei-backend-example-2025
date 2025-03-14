@@ -16,7 +16,13 @@ public class Program
         // Add services to the container.
         builder.Services.AddSingleton(typeof(IGenericRepositoryAsync<>), typeof(MemoryGenericRepositoryAsync<>));
         builder.Services.AddSingleton<IMovieServiceAsync, MovieServiceAsync>();
-        builder.Services.AddControllers();
+        builder.Services.AddControllers(o =>
+            {
+                o.RespectBrowserAcceptHeader = true;
+                o.ReturnHttpNotAcceptable = true;
+            })
+            .AddNewtonsoftJson()
+            .AddXmlSerializerFormatters();
         builder.Services.AddOpenApi();
         //builder.Services.AddExceptionHandler<ProblemDetailsExceptionHandler>();      
         builder.Services.AddProblemDetails();
