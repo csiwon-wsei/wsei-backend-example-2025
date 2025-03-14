@@ -1,6 +1,6 @@
 using ApplicationCore.Application.Commons;
 
-namespace Infrastructer.Memory;
+namespace Infrastructure.Memory;
 
 public class MemoryGenericRepositoryAsync<T> : IGenericRepositoryAsync<T> where T : BaseIdentity
 {
@@ -20,7 +20,10 @@ public class MemoryGenericRepositoryAsync<T> : IGenericRepositoryAsync<T> where 
     public async Task<T> AddAsync(T entity)
     {
         await Task.Delay(1);
-        entity.Id = Guid.NewGuid();
+        if (entity.Id == Guid.Empty)
+        {
+            entity.Id = Guid.NewGuid();
+        }
         _dic.Add(entity.Id, entity);
         return entity;
     }

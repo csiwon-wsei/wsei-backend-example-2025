@@ -43,4 +43,22 @@ public class MovieServiceAsync: IMovieServiceAsync
         return movie;
         
     }
+
+    public async Task<Result<Movie>> AddReviewToMovieResultAsync(Review review)
+    {
+        review.Id = Guid.NewGuid();
+        var movie = await _movies.GetByIdAsync(review.MovieIdGuid);
+        if (movie == null)
+        {
+            return Result<Movie>.Failure($"Movie with id {review.MovieIdGuid} not found!");
+        }
+        var user = await _users.GetByIdAsync(review.UserIdGuid);
+        if (user == null)
+        {
+            return Result<Movie>.Failure($"User with id {review.UserIdGuid} not found!");
+        }
+        movie.Reviews.Add(review);
+        await _movies.SaveChangesAsync();
+        return Result<Movie>.Success(movie);
+    }
 }

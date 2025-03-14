@@ -1,7 +1,7 @@
 using ApplicationCore.Application.Commons;
 using ApplicationCore.Application.Services;
 using ApplicationCore.Domain.Models;
-using Infrastructer.Memory;
+using Infrastructure.Memory;
 
 namespace UnitTests;
 

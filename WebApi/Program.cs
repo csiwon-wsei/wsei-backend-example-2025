@@ -1,8 +1,10 @@
 using ApplicationCore.Application.Commons;
+using ApplicationCore.Application.Exceptions;
 using ApplicationCore.Application.Services;
 using ApplicationCore.Domain.Models;
-using Infrastructer.Memory;
+using Infrastructure.Memory;
 using Scalar.AspNetCore;
+using WebApi.Handlers;
 
 namespace WebApi;
 
@@ -11,17 +13,15 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-
         // Add services to the container.
         builder.Services.AddSingleton(typeof(IGenericRepositoryAsync<>), typeof(MemoryGenericRepositoryAsync<>));
         builder.Services.AddSingleton<IMovieServiceAsync, MovieServiceAsync>();
         builder.Services.AddControllers();
-        // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         builder.Services.AddOpenApi();
-
+        //builder.Services.AddExceptionHandler<ProblemDetailsExceptionHandler>();      
+        builder.Services.AddProblemDetails();
         var app = builder.Build();
-
-        // Configure the HTTP request pipeline.
+        //app.UseExceptionHandler();
         if (app.Environment.IsDevelopment())
         {
             app.MapOpenApi();
@@ -30,12 +30,8 @@ public class Program
                 o.Theme = ScalarTheme.Mars;
             });
         }
-
-        app.UseHttpsRedirection();
-
         app.UseAuthorization();
-
-
+        app.UseHttpsRedirection();
         app.MapControllers();
         app.Seed();
         app.Run();
