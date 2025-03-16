@@ -34,7 +34,7 @@ namespace WebApi.Controllers
                 return NotFound();
             }
 
-            return Ok(MovieMapper.From(movie));
+            return MovieMapper.From(movie);
         }
         [HttpGet("{movieId:guid}/reviews/{reviewId:guid}")]
         public async Task<ActionResult<Review>> GetReviewById(Guid movieId, Guid reviewId)
@@ -44,8 +44,7 @@ namespace WebApi.Controllers
             {
                 return NotFound();
             }
-
-            return Ok(review);
+            return review;
         }
 
         [HttpPost("{movieId:guid}/reviews")]
@@ -70,14 +69,14 @@ namespace WebApi.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [MovieExceptionFilter]
-        public async Task<IActionResult> PostReviewResult(Guid movieId, NewReviewDto dto)
+        public async Task<IResult> PostReviewResult(Guid movieId, NewReviewDto dto)
         {
             var review = MovieMapper.To(movieId, dto);
             review.Id = new Guid();
             var result = await movieServiceAsync.AddReviewToMovieResultAsync(review);
             if (result.IsError)
             {
-                return BadRequest(
+                return Results.BadRequest(
                     new
                     {
                         error = result.Error,
@@ -85,7 +84,7 @@ namespace WebApi.Controllers
             }
 
             var movie = result.Value;
-            return CreatedAtAction(nameof(GetReviewById), new {movieId = movie.Id, reviewId = review.Id}, MovieMapper.From(movie));
+            return Results.CreatedAtRoute(nameof(GetReviewById), new {movieId = movie.Id, reviewId = review.Id}, MovieMapper.From(movie));
         }
     }
 }
