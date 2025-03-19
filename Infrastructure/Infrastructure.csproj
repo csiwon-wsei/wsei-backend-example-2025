@@ -5,7 +5,7 @@
         <LangVersion>12</LangVersion>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>Infrastructer</RootNamespace>
+        <RootNamespace>Infrastructure</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

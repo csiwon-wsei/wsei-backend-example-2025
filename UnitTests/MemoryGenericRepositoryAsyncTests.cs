@@ -1,22 +1,22 @@
 using ApplicationCore.Application.Commons;
-using ApplicationCore.Application.Services;
 using ApplicationCore.Domain.Models;
 using Infrastructer.Memory;
+using Infrastructure.Memory;
 
 namespace UnitTests;
 
 public class MemoryGenericRepositoryAsyncTests
 {
     [Fact]
-    public async void ShouldAddMovieReturnMovieWidthId()
+    public async Task ShouldAddMovieReturnMovieWidthId()
     {
         // Arrange
-        IGenericRepositoryAsync<Movie> _movies = new MemoryGenericRepositoryAsync<Movie>();
+        IGenericRepositoryAsync<Movie> movies = new MemoryGenericRepositoryAsync<Movie>();
 
         Movie movie = new Movie("test", "test", DateTime.Now);
         Guid prevId = movie.Id;
         //Act
-        var result = await _movies.AddAsync(movie);
+        var result = await movies.AddAsync(movie);
         
         //Assert
         Assert.NotEqual(prevId, result.Id);

@@ -1,6 +1,5 @@
 using ApplicationCore.Application.Commons;
 using ApplicationCore.Application.Services;
-using ApplicationCore.Domain.Models;
 using Infrastructer.Memory;
 using Scalar.AspNetCore;
 
@@ -16,6 +15,16 @@ public class Program
         builder.Services.AddSingleton(typeof(IGenericRepositoryAsync<>), typeof(MemoryGenericRepositoryAsync<>));
         builder.Services.AddSingleton<IMovieServiceAsync, MovieServiceAsync>();
         builder.Services.AddControllers();
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowLocalhost",
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:5173", "https://localhost:5173") // Dodaj adresy localhost, z których będą dozwolone żądania
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+        });
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         builder.Services.AddOpenApi();
 
@@ -34,7 +43,7 @@ public class Program
         app.UseHttpsRedirection();
 
         app.UseAuthorization();
-
+        app.UseCors("AllowLocalhost");
 
         app.MapControllers();
         app.Seed();
