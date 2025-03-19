@@ -1,10 +1,16 @@
+
+
+using Newtonsoft.Json;
+
 namespace WebApi.Dto;
 
-public class MovieDto(string title, string description, DateTime releaseDate)
+public class MovieDto()
 {
     public Guid Id { get; set; }
-    public string Title { get; set; } = title;
-    public string Description { get; set; } = description;
-    public DateTime ReleaseDate { get; set; } = releaseDate;
+    
+    [JsonProperty("movie_title")]
+    public string Title { get; set; } 
+    public string Description { get; set; }
+    public DateTime ReleaseDate { get; set; } 
     public List<ReviewDto> Reviews { get; set; } = new List<ReviewDto>();
 }

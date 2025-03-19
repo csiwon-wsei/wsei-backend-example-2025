@@ -7,18 +7,25 @@ public class MovieMapper
 {
     public static MovieDto From(Movie movie)
     {
-        return new MovieDto(movie.Title, movie.Description, movie.ReleaseDate)
+        return new MovieDto()
         {
-            Reviews = movie.Reviews.Select(r => MovieMapper.From(r)).ToList(),
             Id = movie.Id,
+            Title = movie.Title,
+            ReleaseDate = movie.ReleaseDate,
+            Description = movie.Description,
+            Reviews = movie.Reviews.Select(r => MovieMapper.From(r)).ToList(),
+            
         };
     }
 
     public static ReviewDto From(Review review)
     {
-        return new ReviewDto(review.UserIdGuid, review.Title, review.Content, review.Rate)
+        return new ReviewDto()
         {
-            Id = review.Id,
+            UserId = review.UserIdGuid,
+            Content = review.Content,
+            Rate = review.Rate,
+            Title = review.Title
         };
     }
 
